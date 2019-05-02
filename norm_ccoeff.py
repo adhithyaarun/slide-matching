@@ -23,18 +23,21 @@ matches = []
 
 # Read Slides
 for name in slide_names:
-    slides.append({'name': name, 'image': cv.imread(os.path.join(SLIDE, name), 0)})
+    image = cv.imread(os.path.join(SLIDE, name), 0)
+    slides.append({'name': name, 'image': cv.resize(image, (1398, 1080))})
 
 # Read Frames
 for name in frame_names:
-    frames.append({'name': name, 'image': cv.imread(os.path.join(FRAME, name), 0)})
+    image = cv.imread(os.path.join(FRAME, name), 0)
+    frames.append({'name': name, 'image': cv.resize(image, (1398, 1080))})
+
 
 # Match Frames to Slides
 for frame in frames:
     normxcorr = []
     for slide in slides:
-        corr = cv.matchTemplate(slide['image'], frame['image'], cv.TM_CCORR_NORMED)
-        # corr = cv.matchTemplate(slide['image'], frame['image'], cv.TM_CCOEFF)
+        # corr = cv.matchTemplate(slide['image'], frame['image'], cv.TM_CCORR_NORMED)
+        corr = cv.matchTemplate(slide['image'], frame['image'], cv.TM_CCOEFF_NORMED)
         normxcorr.append(corr)
     matchVal = max(normxcorr)
     matchSlide = normxcorr.index(matchVal)
