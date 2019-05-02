@@ -26,13 +26,13 @@ simMatches = []
 
 # Read Slides
 for name in slide_names:
-    slides.append({'name': name, 'image': cv.imread(
-        os.path.join(SLIDE, name), 0)})
+    image = cv.imread(os.path.join(SLIDE, name), 0)
+    slides.append({'name': name, 'image': cv.resize(image, (1398, 1080))})
 
 # Read Frames
 for name in frame_names:
-    frames.append({'name': name, 'image': cv.imread(
-        os.path.join(FRAME, name), 0)})
+    image = cv.imread(os.path.join(FRAME, name), 0)
+    frames.append({'name': name, 'image': cv.resize(image, (1398, 1080))})
 
 # Match Frames to Slides
 for frame in frames:
