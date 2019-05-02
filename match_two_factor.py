@@ -19,9 +19,9 @@ frame_names = sorted(os.listdir(FRAME))
 # Variable Initializations
 slides = []
 frames = []
-normxcorr = []
+# normxcorr = []
 similarity = []
-corrMatches = []
+# corrMatches = []
 simMatches = []
 
 # Read Slides
@@ -36,28 +36,25 @@ for name in frame_names:
 
 # Match Frames to Slides
 for frame in frames:
-    normxcorr = []
+    # normxcorr = []
     similarity = []
     for slide in slides:
-        corr = cv.matchTemplate(
-            slide['image'], frame['image'], cv.TM_CCORR_NORMED)
+        # corr = cv.matchTemplate(
+        #     slide['image'], frame['image'], cv.TM_CCORR_NORMED)
         sim = compare_ssim(slide['image'], frame['image'])
         similarity.append(sim)
-        normxcorr.append(corr)
-    corrMatchVal = max(normxcorr)
-    corrMatchSlide = normxcorr.index(corrMatchVal)
+        # normxcorr.append(corr)
+    # corrMatchVal = max(normxcorr)
+    # corrMatchSlide = normxcorr.index(corrMatchVal)
     simMatchVal = max(similarity)
     simMatchSlide = similarity.index(simMatchVal)
 
-    corrMatches.append((frame['name'], slides[corrMatchSlide]['name']))
+    # corrMatches.append((frame['name'], slides[corrMatchSlide]['name']))
     simMatches.append((frame['name'], slides[simMatchSlide]['name']))
-
-# Alternate: Structural similarity
-print(simMatches)
 
 # Writing to a file
 outfile = open(FILE, 'w')
-for match in corrMatches:
+for match in simMatches:
     outfile.write(match[0] + ' ' + match[1] + '\n')
 
 outfile.close()
