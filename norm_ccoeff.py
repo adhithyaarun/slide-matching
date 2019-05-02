@@ -18,7 +18,7 @@ frame_names = sorted(os.listdir(FRAME))
 # Variable Initializations
 slides = []
 frames = []
-normxcorr = []
+corrcoeff = []
 matches = []
 
 # Read Slides
@@ -34,13 +34,13 @@ for name in frame_names:
 
 # Match Frames to Slides
 for frame in frames:
-    normxcorr = []
+    corrcoeff = []
     for slide in slides:
         # corr = cv.matchTemplate(slide['image'], frame['image'], cv.TM_CCORR_NORMED)
         corr = cv.matchTemplate(slide['image'], frame['image'], cv.TM_CCOEFF_NORMED)
-        normxcorr.append(corr)
-    matchVal = max(normxcorr)
-    matchSlide = normxcorr.index(matchVal)
+        corrcoeff.append(corr)
+    sink1, matchVal, sink2, sink3 = cv.minMaxLocal(corrcoeff)
+    matchSlide = corrcoeff.index(matchVal)
 
     matches.append((frame['name'], slides[matchSlide]['name']))
 
